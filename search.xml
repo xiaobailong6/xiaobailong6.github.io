@@ -15,6 +15,33 @@
     </entry>
     
     
+    
+    <entry>
+      <title>Docker部署安装说明</title>
+      <link href="/2024/05/11/Docker%E9%83%A8%E7%BD%B2%E5%AE%89%E8%A3%85%E8%AF%B4%E6%98%8E/"/>
+      <url>/2024/05/11/Docker%E9%83%A8%E7%BD%B2%E5%AE%89%E8%A3%85%E8%AF%B4%E6%98%8E/</url>
+      
+        <content type="html"><![CDATA[<h1 id="离线安装docker"><a class="markdownIt-Anchor" href="#离线安装docker"></a> 离线安装Docker</h1><h3 id="有网环节进行打包"><a class="markdownIt-Anchor" href="#有网环节进行打包"></a> 有网环节进行打包</h3><h4 id="设置存储库"><a class="markdownIt-Anchor" href="#设置存储库"></a> 设置存储库</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum install -y yum-utils</span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">--add-repo \</span><br><span class="line">https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure><h4 id="下载包"><a class="markdownIt-Anchor" href="#下载包"></a> 下载包</h4><ul><li>下载三个包到<code>tmp/offline_rpm</code>文件目录下</li></ul><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install docker-ce docker-ce-cli containerd.io --downloadonly --downloaddir=/tmp/offline_rpm</span><br></pre></td></tr></table></figure><blockquote><p>注：提前建好 tmp/offline_rpm 文件夹</p></blockquote><h4 id="创建本地yum仓库"><a class="markdownIt-Anchor" href="#创建本地yum仓库"></a> 创建本地yum仓库</h4><ul><li>创建本yum仓库，创建好的仓库目录会出现<code>repodata子目录</code></li></ul><ul><li>测试</li></ul><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">createrepo /tmp/offline_rpm</span><br></pre></td></tr></table></figure><blockquote><p>注：使用createrepo来创建repository仓库，如果系统里没有该命令的话需要先进行createrepo的安装yum install createrepo</p></blockquote><h3 id="离线环境安装docker"><a class="markdownIt-Anchor" href="#离线环境安装docker"></a> 离线环境安装Docker</h3><h4 id="文件拷贝"><a class="markdownIt-Anchor" href="#文件拷贝"></a> 文件拷贝</h4><ul><li>将上面的<code>/tmp/offline_rpm</code>下所有文件拷贝到<code>离线环境</code>中（例如：<code>拷贝到/tmp</code>）</li></ul><h4 id="转移yumreposd文件"><a class="markdownIt-Anchor" href="#转移yumreposd文件"></a> 转移yum.repos.d文件</h4><ul><li>将<code>etc/yum.repos.d</code> 下所有文件转移至 <code>bak文件夹</code>下（bak为自己创建）</li></ul><blockquote><p>注：转移<code>yum.repos.d</code>只作为备份使用，无其他目的</p></blockquote><h4 id="新建repo文件"><a class="markdownIt-Anchor" href="#新建repo文件"></a> 新建repo文件</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/new.repo</span><br><span class="line">[New]</span><br><span class="line">name=New</span><br><span class="line">baseurl=file:///tmp/offline_rpm</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br></pre></td></tr></table></figure><h4 id="清理yum"><a class="markdownIt-Anchor" href="#清理yum"></a> 清理yum</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum clean all</span><br></pre></td></tr></table></figure><h4 id="正常安装docker"><a class="markdownIt-Anchor" href="#正常安装docker"></a> 正常安装Docker</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 部署 </category>
+          
+          <category> 知识 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Docker </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
   
   
 </search>
